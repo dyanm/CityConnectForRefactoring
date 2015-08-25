@@ -169,13 +169,14 @@ public class CityConnect {
 		if (commandTypeString == null)
 			throw new Error("command type string cannot be null!");
 
-		if (commandTypeString.equalsIgnoreCase("addroute")) {
+		switch (commandTypeString.toLowerCase()) {
+		case "addroute":
 			return COMMAND_TYPE.ADD_ROUTE;
-		} else if (commandTypeString.equalsIgnoreCase("getdistance")) {
+		case "getdistance":
 			return COMMAND_TYPE.GET_DISTANCE;
-		} else if (commandTypeString.equalsIgnoreCase("exit")) {
-		 	return COMMAND_TYPE.EXIT;
-		} else {
+		case "exit":
+			return COMMAND_TYPE.EXIT;
+		default:
 			return COMMAND_TYPE.INVALID;
 		}
 	}
@@ -273,9 +274,7 @@ public class CityConnect {
 	 *   newStartLocation and newEndLocation. Returns SLOT_UNAVAILABLE if
 	 *   no suitable slot is found.
 	 */
-	private static int location(String newStartLocation,
-			String newEndLocation) {
-		
+	private static int location(String newStartLocation, String newEndLocation) {
 		for (int i = 0; i < route.length; i++) {
 
 			String existingStartLocation = route[i][STORAGE_POSITION_START_LOCATION];
