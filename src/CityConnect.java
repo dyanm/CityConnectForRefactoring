@@ -188,7 +188,6 @@ public class CityConnect {
 	 * @return the distance
 	 */
 	private static String getDistance(String userCommand) {
-
 		String[] parameters = splitParameters(removeFirstWord(userCommand));
 
 		if (parameters.length < PARAM_SIZE_FOR_GET_DISTANCE) {
@@ -201,13 +200,11 @@ public class CityConnect {
 		int position = getPositionOfExistingRoute(newStartLocation, newEndLocation);
 
 		if (position == NOT_FOUND) {
-			return String.format(MESSAGE_NO_ROUTE, newStartLocation,
-					newEndLocation);
+			return String.format(MESSAGE_NO_ROUTE, newStartLocation, newEndLocation);
 		} 
 		else 
 		{
-			return String.format(MESSAGE_DISTANCE, newStartLocation, newEndLocation,
-					route[position][STORAGE_POSITION_DISTANCE]);
+			return String.format(MESSAGE_DISTANCE, newStartLocation, newEndLocation, route[position][STORAGE_POSITION_DISTANCE]);
 		}
 
 	}
@@ -216,17 +213,14 @@ public class CityConnect {
 	 * @return Returns the position of the route represented by 
 	 *    newStartLocation and newEndLocation. Returns NOT_FOUND if not found.
 	 */
-	private static int  getPositionOfExistingRoute(String newStartLocation,
-			String newEndLocation) {
+	private static int getPositionOfExistingRoute(String newStartLocation, String newEndLocation) {
 		for (int i = 0; i < route.length; i++) {
-
 			String existing_start_location = route[i][STORAGE_POSITION_START_LOCATION];
 			String existing_end_location = route[i][STORAGE_POSITION_END_LOCATION];
 
 			if (existing_start_location == null) { //beginning of empty slots
 				return NOT_FOUND; 
-			} else if (isSameRoute(existing_start_location, existing_end_location,
-					newStartLocation, newEndLocation)) { 
+			} else if (isSameRoute(existing_start_location, existing_end_location, newStartLocation, newEndLocation)) { 
 				return i;
 			}
 		}
@@ -242,11 +236,10 @@ public class CityConnect {
 	 *            checking the first word to be 'addroute')
 	 * @return status of the operation
 	 */
-	private static String addRoute(String userCommand) {
-		
+	private static String addRoute(String userCommand) {		
 		String[] parameters = splitParameters(removeFirstWord(userCommand));
 		
-		if (parameters.length < PARAM_SIZE_FOR_ADD_ROUTE){
+		if (parameters.length < PARAM_SIZE_FOR_ADD_ROUTE) {
 			return String.format(MESSAGE_INVALID_FORMAT, userCommand);
 		}
 
@@ -254,25 +247,22 @@ public class CityConnect {
 		String newEndLocation = parameters[PARAM_POSITION_END_LOCATION];
 		String distance = parameters[PARAM_POSITION_DISTANCE];
 
-		if (!isPositiveNonZeroInt(distance)){
+		if (!isPositiveNonZeroInt(distance)) {
 			return String.format(MESSAGE_INVALID_FORMAT, userCommand);
 		}
 
 		int slotPosition = location(newStartLocation, newEndLocation);
 
-		if (slotPosition == SLOT_UNAVAILABLE){
+		if (slotPosition == SLOT_UNAVAILABLE) {
 			return MESSAGE_NO_SPACE;
 		}
 
-		addRouteAtPosition(newStartLocation, newEndLocation, distance,
-				slotPosition);
+		addRouteAtPosition(newStartLocation, newEndLocation, distance, slotPosition);
 
-		return String.format(MESSAGE_ADDED, newStartLocation, newEndLocation,
-				distance);
+		return String.format(MESSAGE_ADDED, newStartLocation, newEndLocation, distance);
 	}
 
-	private static void addRouteAtPosition(String newStartLocation,
-			String newEndLocation, String distance, int entryPosition) {
+	private static void addRouteAtPosition(String newStartLocation, String newEndLocation, String distance, int entryPosition) {
 		route[entryPosition][STORAGE_POSITION_START_LOCATION] = newStartLocation;
 		route[entryPosition][STORAGE_POSITION_END_LOCATION] = newEndLocation;
 		route[entryPosition][STORAGE_POSITION_DISTANCE] = distance;
@@ -293,8 +283,7 @@ public class CityConnect {
 
 			if (existingStartLocation == null) { // empty slot
 				return i;
-			} else if (isSameRoute(existingStartLocation, existingEndLocation,
-					newStartLocation, newEndLocation)) {
+			} else if (isSameRoute(existingStartLocation, existingEndLocation, newStartLocation, newEndLocation)) {
 				return i;
 			}
 		}
@@ -304,18 +293,14 @@ public class CityConnect {
 	/**
 	 * This operation checks if two routes represents the same route.
 	 */
-	private static boolean isSameRoute(String startLocation1,
-			String endLocation1, String startLocation2, String endLocation2) {
-
+	private static boolean isSameRoute(String startLocation1, String endLocation1, String startLocation2, String endLocation2) {
 		if ((startLocation1 == null) || (endLocation1 == null)
-				&& (startLocation2 == null) || (endLocation2 == null)){
+			&& (startLocation2 == null) || (endLocation2 == null)) {
 			throw new Error("Route end points cannot be null");
 		}
 
-		return (startLocation1.equalsIgnoreCase(startLocation2) && endLocation1
-				.equalsIgnoreCase(endLocation2))
-				|| (startLocation1.equalsIgnoreCase(endLocation2) && endLocation1
-						.equalsIgnoreCase(startLocation2));
+		return (startLocation1.equalsIgnoreCase(startLocation2) && endLocation1.equalsIgnoreCase(endLocation2))
+				|| (startLocation1.equalsIgnoreCase(endLocation2) && endLocation1.equalsIgnoreCase(startLocation2));
 	}
 
 	private static boolean isPositiveNonZeroInt(String s) {
